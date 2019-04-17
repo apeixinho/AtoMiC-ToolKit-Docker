@@ -199,7 +199,6 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
 
-
 ######### PERSONAL VIDEO RECORDERS ##########
 
 # Radarr – Movie Download and Management
@@ -322,7 +321,7 @@ services:
     environment:
       - ALLOWED_NETWORKS="172.17.0.0/16"
       - TZ=${TZ}
-      - HOSTNAME="Docker Plex"
+      - HOSTNAME="PlexMS"
       - PLEX_CLAIM="claim-KqHuW1fkr2yhoPTdEyBr"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
