@@ -14,7 +14,7 @@ services:
     restart: always
     command: -H unix:///var/run/docker.sock
     ports:
-      - "XXXX:9000"
+      - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${USERDIR}/docker/portainer/data:/data
@@ -32,7 +32,7 @@ services:
       - ${USERDIR}/docker/organizr:/config
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:80"
+      - "80:80"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -47,7 +47,7 @@ services:
     links:
       - mariadb:db
     ports:
-      - XXXX:80
+      - "8080:8080"
     environment:
       - PMA_HOST=mariadb
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -81,7 +81,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:8123"
+      - "8123:8123"
     privileged: true
     environment:
       - PUID=${PUID}
@@ -101,7 +101,7 @@ services:
       - /dev/net/tun
     restart: always
     ports:
-    - "XXXX:9091"
+    - "9091:9091"
     dns:
       - 1.1.1.1
       - 1.0.0.1
@@ -322,7 +322,7 @@ services:
     environment:
       - TZ=${TZ}
       - HOSTNAME="Docker Plex"
-      - PLEX_CLAIM="claim-E7D85qxzhCHNKvBN4iZd"
+      - PLEX_CLAIM="claim-NWefbpJQ2vakQ8ioqg5H"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://85.214.72.160:32400/"
