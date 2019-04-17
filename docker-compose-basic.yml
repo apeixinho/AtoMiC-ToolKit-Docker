@@ -47,7 +47,7 @@ services:
     links:
       - mariadb:db
     ports:
-      - "8080:8080"
+      - "8880:80"
     environment:
       - PMA_HOST=mariadb
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -91,56 +91,56 @@ services:
 ######### DOWNLOADERS ##########
 
 # Transmission with VPN – Bittorrent Downloader
-  transmission-vpn:
-    container_name: transmission-vpn
-    hostname: transmission
-    image: haugene/transmission-openvpn
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun
-    restart: always
-    ports:
-    - "9091:9091"
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${USERDIR}/docker/transmission-vpn:/data
-      - ${USERDIR}/docker/shared:/shared
-      - ${USERDIR}/Downloads:/data/watch
-      - ${USERDIR}/Downloads/completed:/data/completed
-      - ${USERDIR}/Downloads/incomplete:/data/incomplete
-    environment:
-      - OPENVPN_PROVIDER=IPVANISH
-      - OPENVPN_USERNAME=ipvanish_username
-      - OPENVPN_PASSWORD=ipvanish_password
-      - OPENVPN_CONFIG="YYYYYYYYYYY"
-      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
-      - LOCAL_NETWORK=192.168.1.0/24
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
-      - TRANSMISSION_RPC_HOST_WHITELIST="127.0.0.1,192.168.*.*"
-      - TRANSMISSION_RPC_PASSWORD=${TRANSMISSION_RPC_PASSWORD}
-      - TRANSMISSION_RPC_USERNAME=${TRANSMISSION_RPC_USERNAME}
-      - TRANSMISSION_UMASK=002
-      - TRANSMISSION_RATIO_LIMIT=0.01
-      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
-      - TRANSMISSION_ALT_SPEED_DOWN=2000
-      - TRANSMISSION_ALT_SPEED_ENABLED=true
-      - TRANSMISSION_ALT_SPEED_UP=15
-      - TRANSMISSION_SPEED_LIMIT_DOWN=6000
-      - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
-      - TRANSMISSION_SPEED_LIMIT_UP=30
-      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
-      - TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete
-      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
-      - TRANSMISSION_WATCH_DIR=/downloads
-      - TRANSMISSION_WATCH_DIR_ENABLED=true
-      - TRANSMISSION_DOWNLOAD_DIR=/downloads/completed
+  # transmission-vpn:
+  #   container_name: transmission-vpn
+  #   hostname: transmission
+  #   image: haugene/transmission-openvpn
+  #   cap_add:
+  #     - NET_ADMIN
+  #   devices:
+  #     - /dev/net/tun
+  #   restart: always
+  #   ports:
+  #   - "9091:9091"
+  #   dns:
+  #     - 1.1.1.1
+  #     - 1.0.0.1
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ${USERDIR}/docker/transmission-vpn:/data
+  #     - ${USERDIR}/docker/shared:/shared
+  #     - ${USERDIR}/Downloads:/data/watch
+  #     - ${USERDIR}/Downloads/completed:/data/completed
+  #     - ${USERDIR}/Downloads/incomplete:/data/incomplete
+  #   environment:
+  #     - OPENVPN_PROVIDER=IPVANISH
+  #     - OPENVPN_USERNAME=ipvanish_username
+  #     - OPENVPN_PASSWORD=ipvanish_password
+  #     - OPENVPN_CONFIG="YYYYYYYYYYY"
+  #     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+  #     - LOCAL_NETWORK=192.168.1.0/24
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+  #     - TRANSMISSION_RPC_HOST_WHITELIST="127.0.0.1,192.168.*.*"
+  #     - TRANSMISSION_RPC_PASSWORD=${TRANSMISSION_RPC_PASSWORD}
+  #     - TRANSMISSION_RPC_USERNAME=${TRANSMISSION_RPC_USERNAME}
+  #     - TRANSMISSION_UMASK=002
+  #     - TRANSMISSION_RATIO_LIMIT=0.01
+  #     - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+  #     - TRANSMISSION_ALT_SPEED_DOWN=2000
+  #     - TRANSMISSION_ALT_SPEED_ENABLED=true
+  #     - TRANSMISSION_ALT_SPEED_UP=15
+  #     - TRANSMISSION_SPEED_LIMIT_DOWN=6000
+  #     - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
+  #     - TRANSMISSION_SPEED_LIMIT_UP=30
+  #     - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+  #     - TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete
+  #     - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+  #     - TRANSMISSION_WATCH_DIR=/downloads
+  #     - TRANSMISSION_WATCH_DIR_ENABLED=true
+  #     - TRANSMISSION_DOWNLOAD_DIR=/downloads/completed
 
 # qBittorrent without VPN – Bittorrent Downloader (Alternative)
   qbittorrent:
@@ -152,7 +152,7 @@ services:
       - ${USERDIR}/Downloads/completed:/downloads
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:XXXX"
+      - "9997:9997"
       - "6881:6881"
       - "6881:6881/udp"
     restart: always
@@ -161,7 +161,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - UMASK_SET=002
-      - WEBUI_PORT=XXXX
+      - WEBUI_PORT=9997
 
 # SABnzbd – Usenet (NZB) Downloader
   sabnzbd:
@@ -174,7 +174,7 @@ services:
       - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
       - ${USERDIR}/docker/shared:/shared
     ports:
-        - "XXXX:8080"
+        - "8080:8080"
     restart: always
     environment:
       - PUID=${PUID}
@@ -192,7 +192,7 @@ services:
       - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:6789"
+      - "6789:6789"
     restart: always
     environment:
       - PUID=${PUID}
@@ -214,7 +214,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:7878"
+      - "7878:7878"
     restart: always
     environment:
       - PUID=${PUID}
@@ -232,7 +232,7 @@ services:
       - ${USERDIR}/media/movies:/movies
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:5050"
+      - "5050:5050"
     restart: always
     environment:
       - PUID=${PUID}
@@ -252,7 +252,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - ${USERDIR}/docker/shared:/shared
     ports:
-        - "XXXX:8989"
+        - "8989:8989"
     restart: always
     environment:
       - PUID=${PUID}
@@ -271,7 +271,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:8686"
+      - "8686:8686"
     restart: always
     environment:
       - PUID=${PUID}
@@ -289,7 +289,7 @@ services:
       - ${USERDIR}/media/tvshows:/tv
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:8081"
+      - "8081:8081"
     restart: always
     environment:
       - PUID=${PUID}
@@ -338,7 +338,7 @@ services:
       - ${USERDIR}/docker/tautulli/logs:/logs:ro
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:8181"
+      - "8181:8181"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -354,7 +354,7 @@ services:
       - ${USERDIR}/docker/ombi:/config
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:3579"
+      - "3579:3579"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -372,7 +372,7 @@ services:
       - ${USERDIR}/Downloads:/downloads
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:5075"
+      - "5075:5075"
     restart: always
     environment:
       - PUID=${PUID}
@@ -390,7 +390,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:9117"
+      - "9117:9117"
     restart: always
     environment:
       - PUID=${PUID}
@@ -429,7 +429,7 @@ services:
       - ${USERDIR}/shared_data:/data
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "XXXX:443"
+      - "443:443"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
