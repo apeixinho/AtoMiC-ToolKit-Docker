@@ -500,7 +500,7 @@ services:
       - ${USERDIR}/shared_data:/data
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "443:443"
+      - "9443:443"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
