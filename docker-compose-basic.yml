@@ -21,6 +21,11 @@ services:
       - ${USERDIR}/docker/shared:/shared
     environment:
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.portainer.hoho.eu.org,portainer.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.portainer.hoho.eu.org,portainer.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
+
 
 # Organizer - Unified HTPC/Home Server Web Interface
   organizr:
@@ -37,6 +42,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 # WebUI for MariaDB
   # phpmyadmin:
@@ -162,6 +171,10 @@ services:
       - TZ=${TZ}
       - UMASK_SET=002
       - WEBUI_PORT=9997
+      - VIRTUAL_HOST=www.qbittorrent.hoho.eu.org,qbittorrent.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.qbittorrent.hoho.eu.org,qbittorrent.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 # SABnzbd – Usenet (NZB) Downloader
   # sabnzbd:
@@ -238,6 +251,10 @@ services:
       - PGID=${PGID}
       - UMASK_SET=002
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.couchpotato.hoho.eu.org,couchpotato.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.couchpotato.hoho.eu.org,couchpotato.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 # Sonarr – TV Show Download and Management
   sonarr:
@@ -257,6 +274,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.sonarr.hoho.eu.org,sonarr.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.sonarr.hoho.eu.org,sonarr.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 #LIDARR - Music Download and Management
   lidarr:
@@ -276,6 +297,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.lidarr.hoho.eu.org,lidarr.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.lidarr.hoho.eu.org,lidarr.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 # SickRage – TV Show Download and Management (Alternative)
   # sickrage:
@@ -321,27 +346,31 @@ services:
     environment:
       - TZ=${TZ}
       - HOSTNAME="PlexMS"
-      - PLEX_CLAIM="claim-mKtbQxyWVqDtsaxfppL6"
+      - PLEX_CLAIM="claim-3bFYi7reLT3bkLwoZyxU"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://85.214.72.160:32400/"
+      - VIRTUAL_HOST=www.plexms.hoho.eu.org,plexms.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.plexms.hoho.eu.org,plexms.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 # Tautulli (aka PlexPy) – Monitoring Plex Usage
-  tautulli:
-    container_name: tautulli
-    hostname: tautulli
-    restart: unless-stopped
-    image: linuxserver/tautulli
-    volumes:
-      - ${USERDIR}/docker/tautulli/config:/config
-      - ${USERDIR}/docker/tautulli/logs:/logs:ro
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "8181:8181"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # tautulli:
+  #   container_name: tautulli
+  #   hostname: tautulli
+  #   restart: unless-stopped
+  #   image: linuxserver/tautulli
+  #   volumes:
+  #     - ${USERDIR}/docker/tautulli/config:/config
+  #     - ${USERDIR}/docker/tautulli/logs:/logs:ro
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "8181:8181"
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 # Ombi – Accept Requests for your Media Server
   ombi:
@@ -358,6 +387,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.ombi.hoho.eu.org,ombi.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.ombi.hoho.eu.org,ombi.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 ######### SEARCHERS ##########
 
@@ -377,6 +410,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.hydra.hoho.eu.org,hydra.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.hydra.hoho.eu.org,hydra.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 # Jackett – Torrent Proxy
   jackett:
@@ -395,6 +432,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.jackett.hoho.eu.org,jackett.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.jackett.hoho.eu.org,jackett.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
 
 ######### UTILITIES ##########
 
@@ -432,3 +473,12 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+      - VIRTUAL_HOST=www.nextcloud.hoho.eu.org,nextcloud.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.nextcloud.hoho.eu.org,nextcloud.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
+
+networks:
+  default:
+    external:
+      name: webproxy
