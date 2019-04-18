@@ -373,14 +373,10 @@ services:
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://85.214.72.160:32400/"
-<<<<<<< HEAD
-      - ALLOWED_NETWORKS="172.17.0.0/16"
-=======
       - VIRTUAL_HOST=${VIRTUAL_HOST}
       - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
->>>>>>> a4222aad2cea3ebdcf135e10b639ea885a3485c0
 
 # Tautulli (aka PlexPy) – Monitoring Plex Usage
   tautulli:
