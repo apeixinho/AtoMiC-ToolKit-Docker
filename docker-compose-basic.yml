@@ -321,7 +321,7 @@ services:
     environment:
       - TZ=${TZ}
       - HOSTNAME="PlexMS"
-      - PLEX_CLAIM="claim-7CqJWgPSmxVL52xZ19oJ"
+      - PLEX_CLAIM="claim-mKtbQxyWVqDtsaxfppL6"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://85.214.72.160:32400/"
