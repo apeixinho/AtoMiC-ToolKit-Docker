@@ -319,13 +319,13 @@ services:
       - "32413:32413/udp"
       - "32414:32414/udp"
     environment:
-      - ALLOWED_NETWORKS="172.17.0.0/16"
       - TZ=${TZ}
       - HOSTNAME="PlexMS"
-      - PLEX_CLAIM="claim-KqHuW1fkr2yhoPTdEyBr"
+      - PLEX_CLAIM="claim-LCFL5vJFuqQU4sBRLn6F"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://85.214.72.160:32400/"
+      - ALLOWED_NETWORKS="172.17.0.0/16"
 
 # Tautulli (aka PlexPy) – Monitoring Plex Usage
   tautulli:
