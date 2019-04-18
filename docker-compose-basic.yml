@@ -430,3 +430,5 @@ services:
     ports:
       - "9443:443"
     environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
