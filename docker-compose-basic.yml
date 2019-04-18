@@ -36,7 +36,7 @@ services:
       - ${USERDIR}/docker/organizr:/config
       - ${USERDIR}/docker/shared:/shared
     ports:
-      - "80:80"
+      - "8999:80"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -47,22 +47,22 @@ services:
       - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 # WebUI for MariaDB
-  phpmyadmin:
-    hostname: phpmyadmin
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    restart: unless-stopped
-    links:
-      - mariadb:db
-    ports:
-      - "8880:80"
-    environment:
-      - PMA_HOST=mariadb
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # phpmyadmin:
+  #   hostname: phpmyadmin
+  #   container_name: phpmyadmin
+  #   image: phpmyadmin/phpmyadmin
+  #   restart: unless-stopped
+  #   links:
+  #     - mariadb:db
+  #   ports:
+  #     - "8880:80"
+  #   environment:
+  #     - PMA_HOST=mariadb
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 ######### DOCKER RELATED ##########
 
@@ -79,30 +79,30 @@ services:
 ######### SMART HOME APPS ##########
 
 # Home Assistant - Smart Home Hub
-  homeassistant:
-    container_name: homeassistant
-    hostname: hass
-    restart: unless-stopped
-    image: homeassistant/home-assistant
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-      - /dev/ttyUSB1:/dev/ttyUSB1
-      - /dev/ttyACM0:/dev/ttyACM0
-    volumes:
-      - ${USERDIR}/docker/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "8123:8123"
-    privileged: true
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # homeassistant:
+  #   container_name: homeassistant
+  #   hostname: hass
+  #   restart: unless-stopped
+  #   image: homeassistant/home-assistant
+  #   devices:
+  #     - /dev/ttyUSB0:/dev/ttyUSB0
+  #     - /dev/ttyUSB1:/dev/ttyUSB1
+  #     - /dev/ttyACM0:/dev/ttyACM0
+  #   volumes:
+  #     - ${USERDIR}/docker/homeassistant:/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "8123:8123"
+  #   privileged: true
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 ######### DOWNLOADERS ##########
 
@@ -184,73 +184,73 @@ services:
       - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 # SABnzbd – Usenet (NZB) Downloader
-  sabnzbd:
-    image: "linuxserver/sabnzbd"
-    hostname: sabnzbd
-    container_name: "sabnzbd"
-    volumes:
-      - ${USERDIR}/docker/sabnzbd:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-        - "8080:8080"
-    restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # sabnzbd:
+  #   image: "linuxserver/sabnzbd"
+  #   hostname: sabnzbd
+  #   container_name: "sabnzbd"
+  #   volumes:
+  #     - ${USERDIR}/docker/sabnzbd:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #       - "8080:8080"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 # NZBGet – Usenet (NZB) Downloader (Alternative)
-  nzbget:
-    image: "linuxserver/nzbget"
-    hostname: nzbget
-    container_name: "nzbget"
-    volumes:
-      - ${USERDIR}/docker/sabnzbd:/config
-      - ${USERDIR}/Downloads:/downloads
-      - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "6789:6789"
-    restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # nzbget:
+  #   image: "linuxserver/nzbget"
+  #   hostname: nzbget
+  #   container_name: "nzbget"
+  #   volumes:
+  #     - ${USERDIR}/docker/sabnzbd:/config
+  #     - ${USERDIR}/Downloads:/downloads
+  #     - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "6789:6789"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 ######### PERSONAL VIDEO RECORDERS ##########
 
 # Radarr – Movie Download and Management
-  radarr:
-    image: "linuxserver/radarr"
-    hostname: radarr
-    container_name: "radarr"
-    volumes:
-      - ${USERDIR}/docker/radarr:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/movies:/movies
-      - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "7878:7878"
-    restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # radarr:
+  #   image: "linuxserver/radarr"
+  #   hostname: radarr
+  #   container_name: "radarr"
+  #   volumes:
+  #     - ${USERDIR}/docker/radarr:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/media/movies:/movies
+  #     - "/etc/localtime:/etc/localtime:ro"
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "7878:7878"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 # CouchPotato – Movie Download and Management (Alternative)
   couchpotato:
@@ -322,26 +322,26 @@ services:
       - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 # SickRage – TV Show Download and Management (Alternative)
-  sickrage:
-    image: "linuxserver/sickrage"
-    hostname: sickrage
-    container_name: "sickrage"
-    volumes:
-      - ${USERDIR}/docker/sickrage:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/tvshows:/tv
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "8081:8081"
-    restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # sickrage:
+  #   image: "linuxserver/sickrage"
+  #   hostname: sickrage
+  #   container_name: "sickrage"
+  #   volumes:
+  #     - ${USERDIR}/docker/sickrage:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/media/tvshows:/tv
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "8081:8081"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 ######### MEDIA SERVER APPS ##########
 
@@ -467,27 +467,27 @@ services:
 ######### UTILITIES ##########
 
 # MariaDB – Database Server for your Apps
-  mariadb:
-    image: "linuxserver/mariadb"
-    container_name: "mariadb"
-    hostname: mariadb
-    volumes:
-        - ${USERDIR}/docker/mariadb:/config
-    ports:
-      - target: 3306
-        published: 3306
-        protocol: tcp
-        mode: host
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
+  # mariadb:
+  #   image: "linuxserver/mariadb"
+  #   container_name: "mariadb"
+  #   hostname: mariadb
+  #   volumes:
+  #       - ${USERDIR}/docker/mariadb:/config
+  #   ports:
+  #     - target: 3306
+  #       published: 3306
+  #       protocol: tcp
+  #       mode: host
+  #   restart: unless-stopped
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - VIRTUAL_HOST=${VIRTUAL_HOST}
+  #     - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+  #     - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+  #     - LETSENCRYPT_TEST=${LETSENCRYPT_TEST}
 
 # NextCloud – Your Own Cloud Storage
   nextcloud:
