@@ -21,8 +21,8 @@ services:
       - ${USERDIR}/portainer/shared:/shared
     environment:
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.portainer.hoho.eu.org, portainer.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.portainer.hoho.eu.org, portainer.hoho.eu.org \
+      - VIRTUAL_HOST=portainer.hoho.eu.org \
+      - LETSENCRYPT_HOST=portainer.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -42,8 +42,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.organizr.hoho.eu.org, organizr.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.organizr.hoho.eu.org, organizr.hoho.eu.org \
+      - VIRTUAL_HOST=organizr.hoho.eu.org \
+      - LETSENCRYPT_HOST=organizr.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -158,8 +158,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.transmission.hoho.eu.org, transmission.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.transmission.hoho.eu.org, transmission.hoho.eu.org \
+      - VIRTUAL_HOST=transmission.hoho.eu.org \
+      - LETSENCRYPT_HOST=transmission.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
     volumes:
@@ -274,8 +274,8 @@ services:
       - PGID=${PGID}
       - UMASK_SET=002
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.couchpotato.hoho.eu.org, couchpotato.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.couchpotato.hoho.eu.org, couchpotato.hoho.eu.org \
+      - VIRTUAL_HOST=couchpotato.hoho.eu.org \
+      - LETSENCRYPT_HOST=couchpotato.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -297,8 +297,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.sonarr.hoho.eu.org, sonarr.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.sonarr.hoho.eu.org, sonarr.hoho.eu.org \
+      - VIRTUAL_HOST=sonarr.hoho.eu.org \
+      - LETSENCRYPT_HOST=sonarr.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -320,8 +320,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.lidarr.hoho.eu.org, lidarr.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.lidarr.hoho.eu.org, lidarr.hoho.eu.org \
+      - VIRTUAL_HOST=lidarr.hoho.eu.org \
+      - LETSENCRYPT_HOST=lidarr.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -373,8 +373,8 @@ services:
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://85.214.72.160:32400/"
-      - VIRTUAL_HOST=www.plexms.hoho.eu.org, plexms.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.plexms.hoho.eu.org, plexms.hoho.eu.org \
+      - VIRTUAL_HOST=plexms.hoho.eu.org \
+      - LETSENCRYPT_HOST=plexms.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -410,8 +410,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.ombi.hoho.eu.org, ombi.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.ombi.hoho.eu.org, ombi.hoho.eu.org \
+      - VIRTUAL_HOST=ombi.hoho.eu.org \
+      - LETSENCRYPT_HOST=ombi.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -433,8 +433,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.hydra.hoho.eu.org, hydra.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.hydra.hoho.eu.org, hydra.hoho.eu.org \
+      - VIRTUAL_HOST=hydra.hoho.eu.org \
+      - LETSENCRYPT_HOST=hydra.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -455,8 +455,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - VIRTUAL_HOST=www.jackett.hoho.eu.org, jackett.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.jackett.hoho.eu.org, jackett.hoho.eu.org \
+      - VIRTUAL_HOST=jackett.hoho.eu.org \
+      - LETSENCRYPT_HOST=jackett.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
@@ -496,8 +496,8 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - VIRTUAL_HOST=www.nextcloud.hoho.eu.org, nextcloud.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.nextcloud.hoho.eu.org, nextcloud.hoho.eu.org \
+      - VIRTUAL_HOST=nextcloud.hoho.eu.org \
+      - LETSENCRYPT_HOST=nextcloud.hoho.eu.org \
       - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
       - LETSENCRYPT_TEST="true"
 
