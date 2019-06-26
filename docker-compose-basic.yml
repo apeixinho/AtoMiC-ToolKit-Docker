@@ -158,6 +158,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - VIRTUAL_HOST=www.transmission.hoho.eu.org, transmission.hoho.eu.org \
+      - LETSENCRYPT_HOST=www.transmission.hoho.eu.org, transmission.hoho.eu.org \
+      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+      - LETSENCRYPT_TEST="true"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${USERDIR}/transmission/config:/config
