@@ -17,8 +17,8 @@ services:
       - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${USERDIR}/docker/portainer/data:/data
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/portainer/data:/data
+      - ${USERDIR}/portainer/shared:/shared
     environment:
       - TZ=${TZ}
       - VIRTUAL_HOST=www.portainer.hoho.eu.org, portainer.hoho.eu.org \
@@ -34,8 +34,8 @@ services:
     restart: unless-stopped
     image: lsiocommunity/organizr
     volumes:
-      - ${USERDIR}/docker/organizr:/config
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/organizr:/config
+      - ${USERDIR}/organizr/shared:/shared
     ports:
       - "8999:80"
     environment:
@@ -151,30 +151,49 @@ services:
   #     - TRANSMISSION_WATCH_DIR_ENABLED=true
   #     - TRANSMISSION_DOWNLOAD_DIR=/downloads/completed
 
-# qBittorrent without VPN – Bittorrent Downloader (Alternative)
-  qbittorrent:
-    image: "linuxserver/qbittorrent"
-    hostname: qbittorrent
-    container_name: "qbittorrent"
-    volumes:
-      - ${USERDIR}/docker/qbittorrent:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "9997:9997"
-      - "6881:6881"
-      - "6881:6881/udp"
-    restart: unless-stopped
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - UMASK_SET=002
-      - WEBUI_PORT=9997
-      - VIRTUAL_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
-      - LETSENCRYPT_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
-      - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
-      - LETSENCRYPT_TEST="true"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${USERDIR}/transmission/config:/config
+      - ${USERDIR}/transmission/watch:/data/watch
+      - ${USERDIR}/transmission/downloads:/downloads
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+
+
+# qBittorrent without VPN – Bittorrent Downloader (Alternative)
+  # qbittorrent:
+  #   image: "linuxserver/qbittorrent"
+  #   hostname: qbittorrent
+  #   container_name: "qbittorrent"
+  #   volumes:
+  #     - ${USERDIR}/docker/qbittorrent:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "9997:9997"
+  #     - "6881:6881"
+  #     - "6881:6881/udp"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - UMASK_SET=002
+  #     - WEBUI_PORT=9997
+  #     - VIRTUAL_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
+  #     - LETSENCRYPT_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
+  #     - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+  #     - LETSENCRYPT_TEST="true"
 
 # SABnzbd – Usenet (NZB) Downloader
   # sabnzbd:
@@ -239,10 +258,10 @@ services:
     hostname: couchpotato
     container_name: "couchpotato"
     volumes:
-      - ${USERDIR}/docker/couchpotato:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/movies:/movies
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/couchpotato:/config
+      - ${USERDIR}/couchpotato/downloads:/downloads
+      - ${USERDIR}/couchpotato/movies:/movies
+      - ${USERDIR}/couchpotato/shared:/shared
     ports:
       - "5050:5050"
     restart: unless-stopped
@@ -262,11 +281,11 @@ services:
     hostname: sonarr
     container_name: "sonarr"
     volumes:
-      - ${USERDIR}/docker/sonarr:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/tvshows:/tv
+      - ${USERDIR}/sonarr:/config
+      - ${USERDIR}/sonarr/downloads:/downloads
+      - ${USERDIR}/sonarr/tv:/tv
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/sonarr/shared:/shared
     ports:
         - "8989:8989"
     restart: unless-stopped
@@ -285,11 +304,11 @@ services:
     hostname: lidarr
     container_name: "lidarr"
     volumes:
-      - ${USERDIR}/docker/lidarr:/config
-      - ${USERDIR}/Downloads:/downloads
-      - ${USERDIR}/media/music:/music
+      - ${USERDIR}/lidarr:/config
+      - ${USERDIR}/lidarr/downloads:/downloads
+      - ${USERDIR}/lidarr/music:/music
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/lidarr/shared:/shared
     ports:
       - "8686:8686"
     restart: unless-stopped
@@ -329,10 +348,10 @@ services:
     image: plexinc/pms-docker
     restart: unless-stopped
     volumes:
-      - ${USERDIR}/docker/plexms:/config
-      - ${USERDIR}/Downloads/plex_tmp:/transcode
-      - /media/media:/media
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/plexms:/config
+      - ${USERDIR}/plexms/transcode:/transcode
+      - ${USERDIR}/plexms/media:/media
+      - ${USERDIR}/plexms/shared:/shared
     ports:
       - "32400:32400/tcp"
       - "3005:3005/tcp"
@@ -345,7 +364,7 @@ services:
       - "32414:32414/udp"
     environment:
       - TZ=${TZ}
-      - HOSTNAME="PlexMS"
+      - HOSTNAME="plexms"
       - PLEX_CLAIM="claim-1fxVL2zQLYuzhbPT2qid"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
@@ -379,8 +398,8 @@ services:
     restart: unless-stopped
     image: linuxserver/ombi
     volumes:
-      - ${USERDIR}/docker/ombi:/config
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/ombi:/config
+      - ${USERDIR}/ombi/shared:/shared
     ports:
       - "3579:3579"
     environment:
@@ -400,9 +419,9 @@ services:
     hostname: hydra
     container_name: "hydra"
     volumes:
-      - ${USERDIR}/docker/hydra:/config
-      - ${USERDIR}/Downloads:/downloads
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/hydra:/config
+      - ${USERDIR}/hydra/downloads:/downloads
+      - ${USERDIR}/hydra/shared:/shared
     ports:
       - "5075:5075"
     restart: unless-stopped
@@ -421,10 +440,10 @@ services:
     hostname: jackett
     container_name: "jackett"
     volumes:
-      - ${USERDIR}/docker/jackett:/config
-      - ${USERDIR}/Downloads/completed:/downloads
+      - ${USERDIR}/jackett:/config
+      - ${USERDIR}/jackett/downloads:/downloads
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/jackett/shared:/shared
     ports:
       - "9117:9117"
     restart: unless-stopped
@@ -465,9 +484,9 @@ services:
     restart: unless-stopped
     image: linuxserver/nextcloud
     volumes:
-      - ${USERDIR}/docker/nextcloud:/config
-      - ${USERDIR}/shared_data:/data
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/nextcloud:/config
+      - ${USERDIR}/nextcloud/data:/data
+      - ${USERDIR}/nextcloud/shared:/shared
     ports:
       - "9443:443"
     environment:
