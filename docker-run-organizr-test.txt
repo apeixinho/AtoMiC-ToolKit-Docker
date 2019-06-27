@@ -5,7 +5,7 @@ docker run -d -e VIRTUAL_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
               -e TZ=${TZ} \
               -v ${USERDIR}/organizr:/config \
               -v ${USERDIR}/organizr/shared:/shared \
-              -p 8999:80 \
+              --expose=8999:80 \
               --restart=on-failure:10 \
               --network=webproxy \
               --name organizr \
