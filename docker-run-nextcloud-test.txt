@@ -6,7 +6,7 @@ docker run -d -e VIRTUAL_HOST=www.nextcloud.hoho.eu.org,nextcloud.hoho.eu.org \
               -v ${USERDIR}/nextcloud:/config \
               -v ${USERDIR}/nextcloud/data:/data \
               -v ${USERDIR}/nextcloud/shared:/shared \
-              --expose=443 \
+              --port=9443:443 \
               --restart=on-failure:10 \
               --network=webproxy \
               --name nextcloud \
