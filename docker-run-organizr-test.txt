@@ -1,0 +1,12 @@
+docker run -d -e VIRTUAL_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
+              -e LETSENCRYPT_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
+              -e LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+              -e LETSENCRYPT_TEST="true" \
+              -e TZ=${TZ} \
+              -v ${USERDIR}/organizr:/config \
+              -v ${USERDIR}/organizr/shared:/shared \
+              --port=8999:80 \
+              --restart=on-failure:10 \
+              --network=webproxy \
+              --name organizr \
+              lsiocommunity/organizr
