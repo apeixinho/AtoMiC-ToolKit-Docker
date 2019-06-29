@@ -2,10 +2,12 @@ docker run -d -e VIRTUAL_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
               -e LETSENCRYPT_HOST=www.organizr.hoho.eu.org,organizr.hoho.eu.org \
               -e LETSENCRYPT_EMAIL=tonibobone@gmail.com \
               -e LETSENCRYPT_TEST="true" \
+              -e PUID=${PUID} \
+              -e PGID=${PGID} \
               -e TZ=${TZ} \
-              -v ${USERDIR}/organizr:/config \
+              -v ${USERDIR}/organizr/config:/config \
               -v ${USERDIR}/organizr/shared:/shared \
-              --expose=80 \
+              -p 8880:80 \
               --restart=on-failure:10 \
               --network=webproxy \
               --name organizr \
