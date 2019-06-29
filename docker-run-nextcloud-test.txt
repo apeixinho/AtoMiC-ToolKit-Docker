@@ -7,6 +7,7 @@ docker run -d -e VIRTUAL_HOST=www.nextcloud.hoho.eu.org,nextcloud.hoho.eu.org \
               -e POSTGRES_HOST=postgres \
               -v ${USERDIR}/nextcloud:/var/www/html \
               -v "/etc/localtime:/etc/localtime:ro" \
+              --dns 172.20.0.1 \
               --restart=on-failure:10 \
               --network=webproxy \
               --name nextcloud \
