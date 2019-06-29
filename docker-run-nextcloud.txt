@@ -1,0 +1,12 @@
+docker run -d -e VIRTUAL_HOST=www.nextcloud.hoho.eu.org,nextcloud.hoho.eu.org \
+              -e LETSENCRYPT_HOST=www.nextcloud.hoho.eu.org,nextcloud.hoho.eu.org \
+              -e LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+              -e PUID=${PUID} \
+              -e PGID=${PGID} \
+              -e POSTGRES_HOST=postgres \
+              -v ${USERDIR}/nextcloud:/var/www/html \
+              -v "/etc/localtime:/etc/localtime:ro" \
+              --restart=on-failure:10 \
+              --network=webproxy \
+              --name nextcloud \
+              nextcloud:fpm-alpine
