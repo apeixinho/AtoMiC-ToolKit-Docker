@@ -1,0 +1,28 @@
+docker run -d -e VIRTUAL_HOST=www.plexms.hoho.eu.org,plexms.hoho.eu.org \
+              -e LETSENCRYPT_HOST=www.plexms.hoho.eu.org,plexms.hoho.eu.org \
+              -e LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+              -e LETSENCRYPT_TEST="true" \
+              -e PLEX_UID=${PUID} \
+              -e PLEX_GID=${PGID} \
+              -e TZ=${TZ} \
+              -e PLEX_CLAIM=${PLEX_CLAIM} \
+              -e ADVERTISE_IP="http://85.214.72.160:32400/" \
+              -e HOSTNAME="plexms" \
+              -v ${USERDIR}/plexms/config:/config \
+              -v ${USERDIR}/plexms/transcode:/transcode \
+              -v ${USERDIR}/plexms/media:/media \
+              -v ${USERDIR}/plexms/shared:/shared \
+              -v "/etc/localtime:/etc/localtime:ro" \
+              -p 32400:32400/tcp \
+              -p 3005:3005/tcp \
+              -p 8324:8324/tcp \
+              -p 32469:32469/tcp \
+              -p 1900:1900/udp \
+              -p 32410:32410/udp \
+              -p 32412:32412/udp \
+              -p 32413:32413/udp \
+              -p 32414:32414/udp \
+              --restart=on-failure:10 \
+              --network=webproxy \
+              --name plexms \
+              plexinc/pms-docker

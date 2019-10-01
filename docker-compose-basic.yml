@@ -11,46 +11,55 @@ services:
     image: portainer/portainer
     hostname: portainer
     container_name: portainer
-    restart: always
+    restart: unless-stopped
     command: -H unix:///var/run/docker.sock
     ports:
-      - "XXXX:9000"
+      - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${USERDIR}/docker/portainer/data:/data
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/portainer/data:/data
+      - ${USERDIR}/portainer/shared:/shared
     environment:
-      - TZ=${TZ}
+      TZ: ${TZ}
+      VIRTUAL_HOST: portainer.hoho.eu.org \
+      LETSENCRYPT_HOST: portainer.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
+
 
 # Organizer - Unified HTPC/Home Server Web Interface
   organizr:
     container_name: organizr
     hostname: organizr
-    restart: always
+    restart: unless-stopped
     image: lsiocommunity/organizr
     volumes:
-      - ${USERDIR}/docker/organizr:/config
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/organizr:/config
+      - ${USERDIR}/organizr/shared:/shared
     ports:
-      - "XXXX:80"
+      - "8999:80"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: organizr.hoho.eu.org \
+      LETSENCRYPT_HOST: organizr.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 # WebUI for MariaDB
-  phpmyadmin:
-    hostname: phpmyadmin
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    links:
-      - mariadb:db
-    ports:
-      - XXXX:80
-    environment:
-      - PMA_HOST=mariadb
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  # phpmyadmin:
+  #   hostname: phpmyadmin
+  #   container_name: phpmyadmin
+  #   image: phpmyadmin/phpmyadmin
+  #   restart: unless-stopped
+  #   links:
+  #     - mariadb:db
+  #   ports:
+  #     - "8880:80"
+  #   environment:
+  #     - PMA_HOST=mariadb
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 
 ######### DOCKER RELATED ##########
 
@@ -58,7 +67,7 @@ services:
   watchtower:
     container_name: watchtower
     hostname: watchtower
-    restart: always
+    restart: unless-stopped
     image: v2tec/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -67,159 +76,185 @@ services:
 ######### SMART HOME APPS ##########
 
 # Home Assistant - Smart Home Hub
-  homeassistant:
-    container_name: homeassistant
-    hostname: hass
-    restart: always
-    image: homeassistant/home-assistant
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-      - /dev/ttyUSB1:/dev/ttyUSB1
-      - /dev/ttyACM0:/dev/ttyACM0
-    volumes:
-      - ${USERDIR}/docker/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "XXXX:8123"
-    privileged: true
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # homeassistant:
+  #   container_name: homeassistant
+  #   hostname: hass
+  #   restart: unless-stopped
+  #   image: homeassistant/home-assistant
+  #   devices:
+  #     - /dev/ttyUSB0:/dev/ttyUSB0
+  #     - /dev/ttyUSB1:/dev/ttyUSB1
+  #     - /dev/ttyACM0:/dev/ttyACM0
+  #   volumes:
+  #     - ${USERDIR}/docker/homeassistant:/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "8123:8123"
+  #   privileged: true
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 ######### DOWNLOADERS ##########
 
 # Transmission with VPN – Bittorrent Downloader
-  transmission-vpn:
-    container_name: transmission-vpn
-    hostname: transmission
-    image: haugene/transmission-openvpn
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun
-    restart: always
-    ports:
-    - "XXXX:9091"
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
+  # transmission-vpn:
+  #   container_name: transmission-vpn
+  #   hostname: transmission
+  #   image: haugene/transmission-openvpn
+  #   cap_add:
+  #     - NET_ADMIN
+  #   devices:
+  #     - /dev/net/tun
+  #   restart: unless-stopped
+  #   ports:
+  #   - "9091:9091"
+  #   dns:
+  #     - 1.1.1.1
+  #     - 1.0.0.1
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ${USERDIR}/docker/transmission-vpn:/data
+  #     - ${USERDIR}/docker/shared:/shared
+  #     - ${USERDIR}/Downloads:/data/watch
+  #     - ${USERDIR}/Downloads/completed:/data/completed
+  #     - ${USERDIR}/Downloads/incomplete:/data/incomplete
+  #   environment:
+  #     - OPENVPN_PROVIDER=IPVANISH
+  #     - OPENVPN_USERNAME=ipvanish_username
+  #     - OPENVPN_PASSWORD=ipvanish_password
+  #     - OPENVPN_CONFIG="YYYYYYYYYYY"
+  #     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+  #     - LOCAL_NETWORK=192.168.1.0/24
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+  #     - TRANSMISSION_RPC_HOST_WHITELIST="127.0.0.1,192.168.*.*"
+  #     - TRANSMISSION_RPC_PASSWORD=${TRANSMISSION_RPC_PASSWORD}
+  #     - TRANSMISSION_RPC_USERNAME=${TRANSMISSION_RPC_USERNAME}
+  #     - TRANSMISSION_UMASK=002
+  #     - TRANSMISSION_RATIO_LIMIT=0.01
+  #     - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+  #     - TRANSMISSION_ALT_SPEED_DOWN=2000
+  #     - TRANSMISSION_ALT_SPEED_ENABLED=true
+  #     - TRANSMISSION_ALT_SPEED_UP=15
+  #     - TRANSMISSION_SPEED_LIMIT_DOWN=6000
+  #     - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
+  #     - TRANSMISSION_SPEED_LIMIT_UP=30
+  #     - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+  #     - TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete
+  #     - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+  #     - TRANSMISSION_WATCH_DIR=/downloads
+  #     - TRANSMISSION_WATCH_DIR_ENABLED=true
+  #     - TRANSMISSION_DOWNLOAD_DIR=/downloads/completed
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: transmission.hoho.eu.org \
+      LETSENCRYPT_HOST: transmission.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${USERDIR}/docker/transmission-vpn:/data
-      - ${USERDIR}/docker/shared:/shared
-      - ${USERDIR}/Downloads:/data/watch
-      - ${USERDIR}/Downloads/completed:/data/completed
-      - ${USERDIR}/Downloads/incomplete:/data/incomplete
-    environment:
-      - OPENVPN_PROVIDER=IPVANISH
-      - OPENVPN_USERNAME=ipvanish_username
-      - OPENVPN_PASSWORD=ipvanish_password
-      - OPENVPN_CONFIG="YYYYYYYYYYY" 
-      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
-      - LOCAL_NETWORK=192.168.1.0/24
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
-      - TRANSMISSION_RPC_HOST_WHITELIST="127.0.0.1,192.168.*.*"
-      - TRANSMISSION_RPC_PASSWORD=${TRANSMISSION_RPC_PASSWORD}
-      - TRANSMISSION_RPC_USERNAME=${TRANSMISSION_RPC_USERNAME}
-      - TRANSMISSION_UMASK=002
-      - TRANSMISSION_RATIO_LIMIT=0.01
-      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
-      - TRANSMISSION_ALT_SPEED_DOWN=2000
-      - TRANSMISSION_ALT_SPEED_ENABLED=true
-      - TRANSMISSION_ALT_SPEED_UP=15
-      - TRANSMISSION_SPEED_LIMIT_DOWN=6000
-      - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
-      - TRANSMISSION_SPEED_LIMIT_UP=30
-      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
-      - TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete
-      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
-      - TRANSMISSION_WATCH_DIR=/downloads
-      - TRANSMISSION_WATCH_DIR_ENABLED=true
-      - TRANSMISSION_DOWNLOAD_DIR=/downloads/completed
+      - ${USERDIR}/transmission/config:/config
+      - ${USERDIR}/transmission/watch:/data/watch
+      - ${USERDIR}/transmission/downloads:/downloads
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+
 
 # qBittorrent without VPN – Bittorrent Downloader (Alternative)
-  qbittorrent:
-    image: "linuxserver/qbittorrent"
-    hostname: qbittorrent
-    container_name: "qbittorrent"
-    volumes:
-      - ${USERDIR}/docker/qbittorrent:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "XXXX:XXXX"
-      - "6881:6881"
-      - "6881:6881/udp"
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK_SET=002
-      - WEBUI_PORT=XXXX
+  # qbittorrent:
+  #   image: "linuxserver/qbittorrent"
+  #   hostname: qbittorrent
+  #   container_name: "qbittorrent"
+  #   volumes:
+  #     - ${USERDIR}/docker/qbittorrent:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "9997:9997"
+  #     - "6881:6881"
+  #     - "6881:6881/udp"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - UMASK_SET=002
+  #     - WEBUI_PORT=9997
+  #     - VIRTUAL_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
+  #     - LETSENCRYPT_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
+  #     - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+  #     - LETSENCRYPT_TEST="true"
 
 # SABnzbd – Usenet (NZB) Downloader
-  sabnzbd:
-    image: "linuxserver/sabnzbd"
-    hostname: sabnzbd
-    container_name: "sabnzbd"
-    volumes:
-      - ${USERDIR}/docker/sabnzbd:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-        - "XXXX:8080"
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # sabnzbd:
+  #   image: "linuxserver/sabnzbd"
+  #   hostname: sabnzbd
+  #   container_name: "sabnzbd"
+  #   volumes:
+  #     - ${USERDIR}/docker/sabnzbd:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #       - "8080:8080"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 # NZBGet – Usenet (NZB) Downloader (Alternative)
-  nzbget:
-    image: "linuxserver/nzbget"
-    hostname: nzbget
-    container_name: "nzbget"
-    volumes:
-      - ${USERDIR}/docker/sabnzbd:/config
-      - ${USERDIR}/Downloads:/downloads
-      - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "XXXX:6789"
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-
+  # nzbget:
+  #   image: "linuxserver/nzbget"
+  #   hostname: nzbget
+  #   container_name: "nzbget"
+  #   volumes:
+  #     - ${USERDIR}/docker/sabnzbd:/config
+  #     - ${USERDIR}/Downloads:/downloads
+  #     - ${USERDIR}/Downloads/incomplete:/incomplete-downloads
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "6789:6789"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 ######### PERSONAL VIDEO RECORDERS ##########
 
 # Radarr – Movie Download and Management
-  radarr:
-    image: "linuxserver/radarr"
-    hostname: radarr
-    container_name: "radarr"
-    volumes:
-      - ${USERDIR}/docker/radarr:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/movies:/movies
-      - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "XXXX:7878"
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # radarr:
+  #   image: "linuxserver/radarr"
+  #   hostname: radarr
+  #   container_name: "radarr"
+  #   volumes:
+  #     - ${USERDIR}/docker/radarr:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/media/movies:/movies
+  #     - "/etc/localtime:/etc/localtime:ro"
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "7878:7878"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 # CouchPotato – Movie Download and Management (Alternative)
   couchpotato:
@@ -227,18 +262,22 @@ services:
     hostname: couchpotato
     container_name: "couchpotato"
     volumes:
-      - ${USERDIR}/docker/couchpotato:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/movies:/movies
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/couchpotato:/config
+      - ${USERDIR}/couchpotato/downloads:/downloads
+      - ${USERDIR}/couchpotato/movies:/movies
+      - ${USERDIR}/couchpotato/shared:/shared
     ports:
-      - "XXXX:5050"
-    restart: always
+      - "5050:5050"
+    restart: unless-stopped
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - UMASK_SET=002
-      - TZ=${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK_SET: 002
+      TZ: ${TZ}
+      VIRTUAL_HOST: couchpotato.hoho.eu.org \
+      LETSENCRYPT_HOST: couchpotato.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 # Sonarr – TV Show Download and Management
   sonarr:
@@ -246,18 +285,22 @@ services:
     hostname: sonarr
     container_name: "sonarr"
     volumes:
-      - ${USERDIR}/docker/sonarr:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/tvshows:/tv
+      - ${USERDIR}/sonarr:/config
+      - ${USERDIR}/sonarr/downloads:/downloads
+      - ${USERDIR}/sonarr/tv:/tv
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/sonarr/shared:/shared
     ports:
-        - "XXXX:8989"
-    restart: always
+        - "8989:8989"
+    restart: unless-stopped
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: sonarr.hoho.eu.org \
+      LETSENCRYPT_HOST: sonarr.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 #LIDARR - Music Download and Management
   lidarr:
@@ -265,36 +308,40 @@ services:
     hostname: lidarr
     container_name: "lidarr"
     volumes:
-      - ${USERDIR}/docker/lidarr:/config
-      - ${USERDIR}/Downloads:/downloads
-      - ${USERDIR}/media/music:/music
+      - ${USERDIR}/lidarr:/config
+      - ${USERDIR}/lidarr/downloads:/downloads
+      - ${USERDIR}/lidarr/music:/music
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/lidarr/shared:/shared
     ports:
-      - "XXXX:8686"
-    restart: always
+      - "8686:8686"
+    restart: unless-stopped
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: lidarr.hoho.eu.org \
+      LETSENCRYPT_HOST: lidarr.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
+
 # SickRage – TV Show Download and Management (Alternative)
-  sickrage:
-    image: "linuxserver/sickrage"
-    hostname: sickrage
-    container_name: "sickrage"
-    volumes:
-      - ${USERDIR}/docker/sickrage:/config
-      - ${USERDIR}/Downloads/completed:/downloads
-      - ${USERDIR}/media/tvshows:/tv
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "XXXX:8081"
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # sickrage:
+  #   image: "linuxserver/sickrage"
+  #   hostname: sickrage
+  #   container_name: "sickrage"
+  #   volumes:
+  #     - ${USERDIR}/docker/sickrage:/config
+  #     - ${USERDIR}/Downloads/completed:/downloads
+  #     - ${USERDIR}/media/tvshows:/tv
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "8081:8081"
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 ######### MEDIA SERVER APPS ##########
 
@@ -302,13 +349,13 @@ services:
   plexms:
     container_name: plexms
     hostname: plexms
-    restart: always
     image: plexinc/pms-docker
+    restart: unless-stopped
     volumes:
-      - ${USERDIR}/docker/plexms:/config
-      - ${USERDIR}/Downloads/plex_tmp:/transcode
-      - /media/media:/media
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/plexms:/config
+      - ${USERDIR}/plexms/transcode:/transcode
+      - ${USERDIR}/plexms/media:/media
+      - ${USERDIR}/plexms/shared:/shared
     ports:
       - "32400:32400/tcp"
       - "3005:3005/tcp"
@@ -320,45 +367,53 @@ services:
       - "32413:32413/udp"
       - "32414:32414/udp"
     environment:
-      - TZ=${TZ}
-      - HOSTNAME="Docker Plex"
-      - PLEX_CLAIM="claim-YYYYYYYYY"
-      - PLEX_UID=${PUID}
-      - PLEX_GID=${PGID}
-      - ADVERTISE_IP="http://SERVER-IP:32400/"
+      TZ: ${TZ}
+      HOSTNAME: "plexms"
+      PLEX_CLAIM: "claim-1fxVL2zQLYuzhbPT2qid"
+      PLEX_UID: ${PUID}
+      PLEX_GID: ${PGID}
+      ADVERTISE_IP: "http://85.214.72.160:32400/"
+      VIRTUAL_HOST: plexms.hoho.eu.org \
+      LETSENCRYPT_HOST: plexms.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 # Tautulli (aka PlexPy) – Monitoring Plex Usage
-  tautulli:
-    container_name: tautulli
-    hostname: tautulli
-    restart: always
-    image: linuxserver/tautulli
-    volumes:
-      - ${USERDIR}/docker/tautulli/config:/config
-      - ${USERDIR}/docker/tautulli/logs:/logs:ro
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "XXXX:8181"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}  
+  # tautulli:
+  #   container_name: tautulli
+  #   hostname: tautulli
+  #   restart: unless-stopped
+  #   image: linuxserver/tautulli
+  #   volumes:
+  #     - ${USERDIR}/docker/tautulli/config:/config
+  #     - ${USERDIR}/docker/tautulli/logs:/logs:ro
+  #     - ${USERDIR}/docker/shared:/shared
+  #   ports:
+  #     - "8181:8181"
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 # Ombi – Accept Requests for your Media Server
   ombi:
     container_name: ombi
     hostname: ombi
-    restart: always
+    restart: unless-stopped
     image: linuxserver/ombi
     volumes:
-      - ${USERDIR}/docker/ombi:/config
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/ombi:/config
+      - ${USERDIR}/ombi/shared:/shared
     ports:
-      - "XXXX:3579"
+      - "3579:3579"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: ombi.hoho.eu.org \
+      LETSENCRYPT_HOST: ombi.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 ######### SEARCHERS ##########
 
@@ -368,16 +423,20 @@ services:
     hostname: hydra
     container_name: "hydra"
     volumes:
-      - ${USERDIR}/docker/hydra:/config
-      - ${USERDIR}/Downloads:/downloads
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/hydra:/config
+      - ${USERDIR}/hydra/downloads:/downloads
+      - ${USERDIR}/hydra/shared:/shared
     ports:
-      - "XXXX:5075"
-    restart: always
+      - "5075:5075"
+    restart: unless-stopped
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ} 
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: hydra.hoho.eu.org \
+      LETSENCRYPT_HOST: hydra.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 # Jackett – Torrent Proxy
   jackett:
@@ -385,51 +444,64 @@ services:
     hostname: jackett
     container_name: "jackett"
     volumes:
-      - ${USERDIR}/docker/jackett:/config
-      - ${USERDIR}/Downloads/completed:/downloads
+      - ${USERDIR}/jackett:/config
+      - ${USERDIR}/jackett/downloads:/downloads
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/jackett/shared:/shared
     ports:
-      - "XXXX:9117"
-    restart: always
+      - "9117:9117"
+    restart: unless-stopped
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VIRTUAL_HOST: jackett.hoho.eu.org \
+      LETSENCRYPT_HOST: jackett.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
 
 ######### UTILITIES ##########
 
 # MariaDB – Database Server for your Apps
-  mariadb:
-    image: "linuxserver/mariadb"
-    container_name: "mariadb"
-    hostname: mariadb
-    volumes:
-        - ${USERDIR}/docker/mariadb:/config
-    ports:
-      - target: 3306
-        published: 3306
-        protocol: tcp
-        mode: host
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # mariadb:
+  #   image: "linuxserver/mariadb"
+  #   container_name: "mariadb"
+  #   hostname: mariadb
+  #   volumes:
+  #       - ${USERDIR}/docker/mariadb:/config
+  #   ports:
+  #     - target: 3306
+  #       published: 3306
+  #       protocol: tcp
+  #       mode: host
+  #   restart: unless-stopped
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
 
 # NextCloud – Your Own Cloud Storage
   nextcloud:
     container_name: nextcloud
     hostname: nextcloud
-    restart: always
+    restart: unless-stopped
     image: linuxserver/nextcloud
     volumes:
-      - ${USERDIR}/docker/nextcloud:/config
-      - ${USERDIR}/shared_data:/data
-      - ${USERDIR}/docker/shared:/shared
+      - ${USERDIR}/nextcloud:/config
+      - ${USERDIR}/nextcloud/data:/data
+      - ${USERDIR}/nextcloud/shared:/shared
     ports:
-      - "XXXX:443"
+      - "9443:443"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      VIRTUAL_HOST: nextcloud.hoho.eu.org \
+      LETSENCRYPT_HOST: nextcloud.hoho.eu.org \
+      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      LETSENCRYPT_TEST: "true"
+
+networks:
+  default:
+    external:
+      name: webproxy

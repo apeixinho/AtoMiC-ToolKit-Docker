@@ -1,0 +1,15 @@
+docker run -d -e VIRTUAL_HOST=www.transmission.hoho.eu.org,transmission.hoho.eu.org \
+              -e LETSENCRYPT_HOST=www.transmission.hoho.eu.org,transmission.hoho.eu.org \
+              -e LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+              -e TZ=${TZ} \
+              -e PUID=${PUID} \
+              -e PGID= ${PGID} \
+              -v ${USERDIR}/transmission/config:/config \
+              -v ${USERDIR}/transmission/downloads:/downloads \
+              -v ${USERDIR}/transmission/watch:/watch \
+              --expose=9091 \
+              --expose=51413 \
+              --restart=on-failure:10 \
+              --network=webproxy \
+              --name transmission \
+              linuxserver/transmission
