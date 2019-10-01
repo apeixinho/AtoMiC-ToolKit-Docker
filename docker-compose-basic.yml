@@ -7,45 +7,45 @@ services:
 ######### FRONTENDS ##########
 
  #Portainer - WebUI for Containers
-  portainer:
-    image: portainer/portainer
-    hostname: portainer
-    container_name: portainer
-    restart: unless-stopped
-    command: -H unix:///var/run/docker.sock
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${USERDIR}/portainer/data:/data
-      - ${USERDIR}/portainer/shared:/shared
-    environment:
-      TZ: ${TZ}
-      VIRTUAL_HOST: portainer.hoho.eu.org \
-      LETSENCRYPT_HOST: portainer.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
-      LETSENCRYPT_TEST: "true"
+  # portainer:
+  #   image: portainer/portainer
+  #   hostname: portainer
+  #   container_name: portainer
+  #   restart: unless-stopped
+  #   command: -H unix:///var/run/docker.sock
+  #   ports:
+  #     - "9000:9000"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ${USERDIR}/portainer/data:/data
+  #     - ${USERDIR}/portainer/shared:/shared
+  #   environment:
+  #     TZ: ${TZ}
+  #     VIRTUAL_HOST:  \
+  #     LETSENCRYPT_HOST:  \
+  #     LETSENCRYPT_EMAIL: somename@email.com \
+  #     LETSENCRYPT_TEST: "true"
 
 
 # Organizer - Unified HTPC/Home Server Web Interface
-  organizr:
-    container_name: organizr
-    hostname: organizr
-    restart: unless-stopped
-    image: lsiocommunity/organizr
-    volumes:
-      - ${USERDIR}/organizr:/config
-      - ${USERDIR}/organizr/shared:/shared
-    ports:
-      - "8999:80"
-    environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      TZ: ${TZ}
-      VIRTUAL_HOST: organizr.hoho.eu.org \
-      LETSENCRYPT_HOST: organizr.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
-      LETSENCRYPT_TEST: "true"
+  # organizr:
+  #   container_name: organizr
+  #   hostname: organizr
+  #   restart: unless-stopped
+  #   image: lsiocommunity/organizr
+  #   volumes:
+  #     - ${USERDIR}/organizr:/config
+  #     - ${USERDIR}/organizr/shared:/shared
+  #   ports:
+  #     - "8999:80"
+  #   environment:
+  #     PUID: ${PUID}
+  #     PGID: ${PGID}
+  #     TZ: ${TZ}
+  #     VIRTUAL_HOST:  \
+  #     LETSENCRYPT_HOST: \
+  #     LETSENCRYPT_EMAIL: somename@email.com \
+  #     LETSENCRYPT_TEST: "true"
 
 # WebUI for MariaDB
   # phpmyadmin:
@@ -158,9 +158,9 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
-      VIRTUAL_HOST: transmission.hoho.eu.org \
-      LETSENCRYPT_HOST: transmission.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST:  \
+      LETSENCRYPT_HOST:  \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -194,9 +194,9 @@ services:
   #     - TZ=${TZ}
   #     - UMASK_SET=002
   #     - WEBUI_PORT=9997
-  #     - VIRTUAL_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
-  #     - LETSENCRYPT_HOST=www.qbittorrent.hoho.eu.org, qbittorrent.hoho.eu.org \
-  #     - LETSENCRYPT_EMAIL=tonibobone@gmail.com \
+  #     - VIRTUAL_HOST= \
+  #     - LETSENCRYPT_HOST= \
+  #     - LETSENCRYPT_EMAIL=somename@email.com \
   #     - LETSENCRYPT_TEST="true"
 
 # SABnzbd – Usenet (NZB) Downloader
@@ -274,9 +274,9 @@ services:
       PGID: ${PGID}
       UMASK_SET: 002
       TZ: ${TZ}
-      VIRTUAL_HOST: couchpotato.hoho.eu.org \
-      LETSENCRYPT_HOST: couchpotato.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST: \
+      LETSENCRYPT_HOST: \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 # Sonarr – TV Show Download and Management
@@ -297,9 +297,9 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
-      VIRTUAL_HOST: sonarr.hoho.eu.org \
-      LETSENCRYPT_HOST: sonarr.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST: \
+      LETSENCRYPT_HOST: \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 #LIDARR - Music Download and Management
@@ -320,9 +320,9 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
-      VIRTUAL_HOST: lidarr.hoho.eu.org \
-      LETSENCRYPT_HOST: lidarr.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST:  \
+      LETSENCRYPT_HOST:  \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 # SickRage – TV Show Download and Management (Alternative)
@@ -372,10 +372,10 @@ services:
       PLEX_CLAIM: "claim-1fxVL2zQLYuzhbPT2qid"
       PLEX_UID: ${PUID}
       PLEX_GID: ${PGID}
-      ADVERTISE_IP: "http://85.214.72.160:32400/"
-      VIRTUAL_HOST: plexms.hoho.eu.org \
-      LETSENCRYPT_HOST: plexms.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      ADVERTISE_IP: "http://IP:32400/"
+      VIRTUAL_HOST:  \
+      LETSENCRYPT_HOST:  \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 # Tautulli (aka PlexPy) – Monitoring Plex Usage
@@ -410,9 +410,9 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
-      VIRTUAL_HOST: ombi.hoho.eu.org \
-      LETSENCRYPT_HOST: ombi.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST:  \
+      LETSENCRYPT_HOST:  \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 ######### SEARCHERS ##########
@@ -433,9 +433,9 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
-      VIRTUAL_HOST: hydra.hoho.eu.org \
-      LETSENCRYPT_HOST: hydra.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST:  \
+      LETSENCRYPT_HOST:  \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 # Jackett – Torrent Proxy
@@ -455,9 +455,9 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
-      VIRTUAL_HOST: jackett.hoho.eu.org \
-      LETSENCRYPT_HOST: jackett.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
+      VIRTUAL_HOST: \
+      LETSENCRYPT_HOST:  \
+      LETSENCRYPT_EMAIL: somename@email.com \
       LETSENCRYPT_TEST: "true"
 
 ######### UTILITIES ##########
@@ -482,24 +482,24 @@ services:
   #     - TZ=${TZ}
 
 # NextCloud – Your Own Cloud Storage
-  nextcloud:
-    container_name: nextcloud
-    hostname: nextcloud
-    restart: unless-stopped
-    image: linuxserver/nextcloud
-    volumes:
-      - ${USERDIR}/nextcloud:/config
-      - ${USERDIR}/nextcloud/data:/data
-      - ${USERDIR}/nextcloud/shared:/shared
-    ports:
-      - "9443:443"
-    environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      VIRTUAL_HOST: nextcloud.hoho.eu.org \
-      LETSENCRYPT_HOST: nextcloud.hoho.eu.org \
-      LETSENCRYPT_EMAIL: tonibobone@gmail.com \
-      LETSENCRYPT_TEST: "true"
+  # nextcloud:
+  #   container_name: nextcloud
+  #   hostname: nextcloud
+  #   restart: unless-stopped
+  #   image: linuxserver/nextcloud
+  #   volumes:
+  #     - ${USERDIR}/nextcloud:/config
+  #     - ${USERDIR}/nextcloud/data:/data
+  #     - ${USERDIR}/nextcloud/shared:/shared
+  #   ports:
+  #     - "9443:443"
+  #   environment:
+  #     PUID: ${PUID}
+  #     PGID: ${PGID}
+  #     VIRTUAL_HOST: \
+  #     LETSENCRYPT_HOST: \
+  #     LETSENCRYPT_EMAIL: somename@email.com \
+  #     LETSENCRYPT_TEST: "true"
 
 networks:
   default:
