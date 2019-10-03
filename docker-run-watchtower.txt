@@ -2,6 +2,6 @@ docker run -d \
   -e TZ="Europe/Amsterdam" \
   --restart=on-failure:5 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  --schedule "0 0 4 * * *" --cleanup \
   --name watchtower \
-  v2tec/watchtower
+  v2tec/watchtower \
+  --schedule "0 0 4 * * *" --cleanup
