@@ -243,11 +243,11 @@ services:
     hostname: radarr
     container_name: "radarr"
     volumes:
-      - ${USERDIR}/radarr:/config
-      - ${USERDIR}/radarr:/Downloads/completed:/downloads
-      - ${USERDIR}/radarr:/media/movies:/movies
+      - ${USERDIR:-./radarr}/radarr:/config
+      - ${USERDIR:-./radarr/Downloads/completed}/radarr/Downloads/completed:/downloads
+      - ${USERDIR:-./radarr/movies}/radarr/movies:/movies
+      - ${USERDIR:-./radarr/shared}/radarr/shared:/shared
       - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/radarr/shared:/shared
     ports:
       - "7878:7878"
     restart: on-failure:5
