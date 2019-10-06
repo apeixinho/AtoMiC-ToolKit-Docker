@@ -244,8 +244,8 @@ services:
     container_name: "radarr"
     volumes:
       - ${USERDIR:-./radarr}/radarr:/config
-      - ${USERDIR:-./radarr/Downloads/completed}/radarr/Downloads/completed:/downloads
-      - ${USERDIR:-./radarr/movies}/radarr/movies:/movies
+      - ${USERDIR:-./radarr/downloads/completed}/radarr/downloads/completed:/downloads
+      - ${USERDIR:-./radarr/media/movies}/radarr/media/movies:/movies
       - ${USERDIR:-./radarr/shared}/radarr/shared:/shared
       - "/etc/localtime:/etc/localtime:ro"
     ports:
