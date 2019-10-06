@@ -3,8 +3,8 @@ docker run -d -e VIRTUAL_HOST=portainer.hoho.eu.org,portainer.adolfo-peixinho.eu
               -e LETSENCRYPT_EMAIL=a_peixinho@sapo.pt \
               -e TZ="Europe/Amsterdam" \
               -v /var/run/docker.sock:/var/run/docker.sock \
-              -v /home/user/docker-volumes/portainer/data:/data \
-              -v /home/user/docker-volumes/portainer/shared:/shared \
+              -v /home/tip-user/docker-volumes/portainer/data:/data \
+              -v /home/tip-user/docker-volumes/portainer/shared:/shared \
               -p 9009:9000 \
               --restart=on-failure:5 \
               --network=webproxy \
