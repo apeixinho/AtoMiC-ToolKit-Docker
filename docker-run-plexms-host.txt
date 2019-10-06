@@ -1,0 +1,16 @@
+docker run -d \
+-e VIRTUAL_HOST=plex.hoho.eu.org \
+-e LETSENCRYPT_HOST=plexms.hoho.eu.org \
+-e LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL} \
+-e PLEX_UID=${PUID} \
+-e PLEX_GID=${PGID} \
+-e TZ=${TZ} \
+-e PLEX_CLAIM=${PLEX_CLAIM} \
+-v ${USERDIR}/plexms:/config \
+-v ${USERDIR}/plexms/transcode:/transcode \
+-v ${USERDIR}/plexms/media:/media \
+-v ${USERDIR}/plexms/shared:/shared \
+--restart=on-failure:5 \
+--network=webproxy \
+--name plexms \
+plexinc/pms-docker
