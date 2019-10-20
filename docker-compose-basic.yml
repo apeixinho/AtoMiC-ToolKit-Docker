@@ -488,6 +488,7 @@ services:
 
 
   nextcloud:
+    container_name: nextcloud
     image: nextcloud
     hostname: nextcloud
     restart: on-failure:5
@@ -516,6 +517,7 @@ services:
       - ${USERDIR:-./html}/html:/var/www/html
   
   db:
+    container_name: nextcloud_db
     image: postgres:12-alpine
     restart: on-failure:5
     volumes:
@@ -527,6 +529,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
 
   redis:
+    container_name: nextcloud_redis
     image: redis:alpine
     restart: on-failure:5
     volumes:
