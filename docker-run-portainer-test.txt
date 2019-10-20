@@ -1,13 +1,14 @@
-docker run -d -e VIRTUAL_HOST=www.portainer.hoho.eu.org,portainer.hoho.eu.org \
-              -e LETSENCRYPT_HOST=www.portainer.hoho.eu.org,portainer.hoho.eu.org \
-              -e LETSENCRYPT_EMAIL=tonibobone@gmail.com \
-              -e LETSENCRYPT_TEST="true" \
-              -e TZ=${TZ} \
-              -v /var/run/docker.sock:/var/run/docker.sock \
-              -v ${USERDIR}/portainer/data:/data \
-              -v ${USERDIR}/portainer/shared:/shared \
-              -p 9009:9000 \
-              --restart=on-failure:10 \
-              --network=webproxy \
-              --name portainer \
-              portainer/portainer
+docker run -d --env-file ${pwd}/.env
+-e VIRTUAL_HOST=portainer.${VIRTUAL_HOST} \
+-e LETSENCRYPT_HOST=portainer.${VIRTUAL_HOST} \
+-e LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL} \
+-e LETSENCRYPT_TEST="true" \
+-e TZ=${TZ} \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v ${USERDIR}/portainer/data:/data \
+-v ${USERDIR}/portainer/shared:/shared \
+-p 9009:9000 \
+--restart=on-failure:5 \
+--network=webproxy \
+--name portainer \
+portainer/portainer
