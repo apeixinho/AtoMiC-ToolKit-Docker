@@ -158,10 +158,12 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
+      TRANSMISSION_WEB_HOME: /combustion-release/
+      USER: ${ADMIN_USERNAME}
+      PASS: ${ADMIN_PASSWORD}
       VIRTUAL_HOST: trans.${VIRTUAL_HOST}
       LETSENCRYPT_HOST: trans.${VIRTUAL_HOST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      LETSENCRYPT_TEST: "true"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${USERDIR}/transmission/config:/config

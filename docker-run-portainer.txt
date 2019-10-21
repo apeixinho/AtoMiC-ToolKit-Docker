@@ -1,13 +1,13 @@
-docker run -d --env-file ${pwd}/.env
--e VIRTUAL_HOST=portainer.${VIRTUAL_HOST} \
--e LETSENCRYPT_HOST=portainer.${VIRTUAL_HOST} \
--e LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL} \
--e TZ=${TZ} \
--v /var/run/docker.sock:/var/run/docker.sock \
--v ${USERDIR}/portainer/data:/data \
--v ${USERDIR}/portainer/shared:/shared \
--p 9009:9000 \
---restart=on-failure:5 \
---network=webproxy \
---name portainer \
-portainer/portainer
+docker run -d --env-file .env \
+  -e VIRTUAL_HOST=portainer.${VIRTUAL_HOST} \
+  -e LETSENCRYPT_HOST=portainer.${VIRTUAL_HOST} \
+  -e LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL} \
+  -e TZ=${TZ} \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ${USERDIR}/portainer/data:/data \
+  -v ${USERDIR}/portainer/shared:/shared \
+  -p 9000:9000 \
+  --restart=on-failure:5 \
+  --network=webproxy \
+  --name portainer \
+  portainer/portainer
