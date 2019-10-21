@@ -375,7 +375,7 @@ services:
     environment:
       TZ: ${TZ}
       HOSTNAME: "plexms"
-      PLEX_CLAIM: "claim-1fxVL2zQLYuzhbPT2qid"
+      PLEX_CLAIM: ${PLEX_CLAIM}
       PLEX_UID: ${PUID}
       PLEX_GID: ${PGID}
       ADVERTISE_IP: "http://${PLEX_IP}:32400/"
